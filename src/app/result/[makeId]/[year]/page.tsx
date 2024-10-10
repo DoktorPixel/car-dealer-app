@@ -13,7 +13,9 @@ export const generateStaticParams = async () => {
     (_, i) => currentYear - i
   );
 
-  const paths = makes.flatMap((make) =>
+  const limitedMakes = makes.slice(0, 5);
+
+  const paths = limitedMakes.flatMap((make) =>
     years.map((year) => ({
       makeId: make.MakeId.toString(),
       year: year.toString()
