@@ -9,7 +9,7 @@ This application is an enhanced interface for searching vehicles by make and mod
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/your-username/your-repository.git
+   git clone https://github.com/DoktorPixel/car-dealer-app.git
 
    ```
 
@@ -17,7 +17,7 @@ This application is an enhanced interface for searching vehicles by make and mod
 
 ````bash
 
-cd your-repository
+cd car-dealer-app
 
 Install dependencies:
 
