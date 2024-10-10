@@ -1,6 +1,11 @@
+import { fetchVehicleMakes } from './services/vehicleService';
+import HomeClient from './components/client/HomeClient';
 
-import HomeClient from "./components/client/HomeClient";
-
-export default function HomePage() {
-  return <HomeClient />;
+export default async function HomePage() {
+  try {
+    const makes = await fetchVehicleMakes();
+    return <HomeClient makes={makes} error="" />;
+  } catch (error) {
+    return <HomeClient makes={[]} error="Failed to fetch vehicle makes" />;
+  }
 }

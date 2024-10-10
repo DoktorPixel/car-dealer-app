@@ -1,28 +1,15 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 
-interface VehicleMake {
-  MakeId: number;
-  MakeName: string;
-}
-
-const HomeClient = () => {
-  const [makes, setMakes] = useState<VehicleMake[]>([]);
+const HomeClient = ({ makes, error }: { makes: any[]; error: string }) => {
   const [selectedMake, setSelectedMake] = useState<string>('');
   const [selectedYear, setSelectedYear] = useState<string>('');
   const currentYear = new Date().getFullYear();
-
-  useEffect(() => {
-    const fetchMakes = async () => {
-      const response = await fetch(
-        'https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json'
-      );
-      const data = await response.json();
-      setMakes(data.Results);
-    };
-    fetchMakes();
-  }, []);
+  // console.log('Navigating to:', `/result/${selectedMake}/${selectedYear}`);
+  if (error) {
+    return <p className="text-red-500">{error}</p>;
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
@@ -71,6 +58,9 @@ const HomeClient = () => {
           ))}
         </select>
       </div>
+
+      <p>Selected Make: {selectedMake}</p>
+      <p>Selected Year: {selectedYear}</p>
 
       <Link
         href={`/result/${selectedMake}/${selectedYear}`}
