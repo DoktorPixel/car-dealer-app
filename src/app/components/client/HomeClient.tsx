@@ -1,8 +1,15 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
+import { VehicleMake } from '@/app/types';
 
-const HomeClient = ({ makes, error }: { makes: any[]; error: string }) => {
+const HomeClient = ({
+  makes,
+  error
+}: {
+  makes: VehicleMake[];
+  error: string;
+}) => {
   const [selectedMake, setSelectedMake] = useState<string>('');
   const [selectedYear, setSelectedYear] = useState<string>('');
   const currentYear = new Date().getFullYear();

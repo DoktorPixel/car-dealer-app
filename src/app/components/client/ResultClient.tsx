@@ -1,5 +1,6 @@
 'use client';
 
+import { VehicleModel } from '@/app/types';
 import { Suspense } from 'react';
 
 const ResultClient = ({
@@ -8,7 +9,7 @@ const ResultClient = ({
   year,
   error
 }: {
-  models: any[];
+  models: VehicleModel[];
   make: string;
   year: string;
   error: string;
