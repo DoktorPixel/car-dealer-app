@@ -3,9 +3,9 @@ import {
   fetchVehicleMakes
 } from '@/app/services/vehicleService';
 import ResultClient from '@/app/components/client/ResultClient';
-import { VehicleMake, VehicleModel } from '@/app/types';
+import { VehicleMake } from '@/app/types';
 
-export const getStaticPaths = async () => {
+export const generateStaticParams = async () => {
   const makes: VehicleMake[] = await fetchVehicleMakes();
   const currentYear = new Date().getFullYear();
   const years = Array.from(
@@ -15,17 +15,15 @@ export const getStaticPaths = async () => {
 
   const paths = makes.flatMap((make) =>
     years.map((year) => ({
-      params: { makeId: make.MakeId.toString(), year: year.toString() }
+      makeId: make.MakeId.toString(),
+      year: year.toString()
     }))
   );
 
-  return {
-    paths,
-    fallback: 'blocking'
-  };
+  return paths;
 };
 
-export const getStaticProps = async ({
+const ResultPage = async ({
   params
 }: {
   params: { makeId: string; year: string };
@@ -37,30 +35,22 @@ export const getStaticProps = async ({
       fetchVehicleModels(makeId, year),
       fetchVehicleMakes()
     ]);
+
     const make =
       makes.find((m: VehicleMake) => m.MakeId.toString() === makeId)
         ?.MakeName || '';
 
-    return {
-      props: { models, make, year, error: '' }
-    };
+    return <ResultClient models={models} make={make} year={year} error="" />;
   } catch {
-    return {
-      props: { models: [], make: '', year }
-    };
+    return (
+      <ResultClient
+        models={[]}
+        make=""
+        year={year}
+        error="Failed to fetch data"
+      />
+    );
   }
 };
 
-export default function ResultPage({
-  models,
-  make,
-  year,
-  error
-}: {
-  models: VehicleModel[];
-  make: string;
-  year: string;
-  error: string;
-}) {
-  return <ResultClient models={models} make={make} year={year} error={error} />;
-}
+export default ResultPage;

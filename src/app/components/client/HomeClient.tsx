@@ -13,16 +13,21 @@ const HomeClient = ({
   const [selectedMake, setSelectedMake] = useState<string>('');
   const [selectedYear, setSelectedYear] = useState<string>('');
   const currentYear = new Date().getFullYear();
-  // console.log('Navigating to:', `/result/${selectedMake}/${selectedYear}`);
+
   if (error) {
     return <p className="text-red-500">{error}</p>;
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      <h1 className="text-3xl font-bold uppercase">Car dealer app</h1>
+    <div className="flex flex-col items-center justify-center min-h-screen py-2 max-w-md mx-auto">
+      <h1 className="text-4xl font-bold uppercase text-center">
+        Car Dealer App
+      </h1>
+      <p className="text-sm text-gray-500 mt-2 text-center">
+        Select a vehicle make and year to proceed
+      </p>
 
-      <div className="mt-6">
+      <div className="mt-6 w-full">
         <label
           htmlFor="make"
           className="block text-sm font-medium text-gray-700"
@@ -33,7 +38,7 @@ const HomeClient = ({
           id="make"
           value={selectedMake}
           onChange={(e) => setSelectedMake(e.target.value)}
-          className="mt-1 block w-full p-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+          className="mt-1 block w-full p-3 border border-gray-300 bg-white rounded-md shadow-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 hover:border-indigo-400"
         >
           <option value="">Choose a make</option>
           {makes.map((make) => (
@@ -44,7 +49,7 @@ const HomeClient = ({
         </select>
       </div>
 
-      <div className="mt-4">
+      <div className="mt-4 w-full">
         <label
           htmlFor="year"
           className="block text-sm font-medium text-gray-700"
@@ -55,7 +60,7 @@ const HomeClient = ({
           id="year"
           value={selectedYear}
           onChange={(e) => setSelectedYear(e.target.value)}
-          className="mt-1 block w-full p-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+          className="mt-1 block w-full p-3 border border-gray-300 bg-white rounded-md shadow-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 hover:border-indigo-400"
         >
           <option value="">Choose a year</option>
           {[...Array(currentYear - 2015 + 1)].map((_, i) => (
@@ -72,7 +77,7 @@ const HomeClient = ({
           setSelectedYear('');
         }}
         href={`/result/${selectedMake}/${selectedYear}`}
-        className={`mt-6 inline-block px-4 py-2 text-white bg-blue-600 rounded ${
+        className={`mt-6 inline-block px-6 py-3 text-lg text-white bg-blue-600 rounded hover:bg-blue-700 transition shadow-md ${
           !selectedMake || !selectedYear ? 'opacity-50 pointer-events-none' : ''
         }`}
       >
