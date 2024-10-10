@@ -59,10 +59,11 @@ const HomeClient = ({ makes, error }: { makes: any[]; error: string }) => {
         </select>
       </div>
 
-      <p>Selected Make: {selectedMake}</p>
-      <p>Selected Year: {selectedYear}</p>
-
       <Link
+        onClick={() => {
+          setSelectedMake('');
+          setSelectedYear('');
+        }}
         href={`/result/${selectedMake}/${selectedYear}`}
         className={`mt-6 inline-block px-4 py-2 text-white bg-blue-600 rounded ${
           !selectedMake || !selectedYear ? 'opacity-50 pointer-events-none' : ''

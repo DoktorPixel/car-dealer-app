@@ -3,11 +3,7 @@ import {
   fetchVehicleModels
 } from '@/app/services/vehicleService';
 import ResultClient from '@/app/components/client/ResultClient';
-
-interface VehicleMake {
-  MakeId: number;
-  MakeName: string;
-}
+import { VehicleMake, VehicleModel } from '@/app/types';
 
 export const generateStaticParams = async () => {
   const makes: VehicleMake[] = await fetchVehicleMakes();
@@ -49,10 +45,20 @@ export const getStaticProps = async ({
 
   console.log('Received parameters:', { makeId, year });
   try {
-    const models = await fetchVehicleModels(makeId, year);
+    const [models, makes] = await Promise.all([
+      fetchVehicleModels(makeId, year),
+      fetchVehicleMakes()
+    ]);
+
+    const make =
+      makes.find((m: VehicleMake) => m.MakeId.toString() === makeId)
+        ?.MakeName || '';
+
     return {
       props: {
-        models
+        models,
+        make,
+        year
       }
     };
   } catch (error) {
@@ -60,24 +66,25 @@ export const getStaticProps = async ({
     return {
       props: {
         models: [],
+        make: '',
+        year: '',
         error: 'Failed to fetch vehicle models'
       }
     };
   }
 };
 
-interface VehicleModel {
-  Model_ID: number;
-  Model_Name: string;
-}
-
 export default function ResultPage({
   models,
+  make,
+  year,
   error
 }: {
   models: VehicleModel[];
+  make: string;
+  year: string;
   error: string;
 }) {
   console.log('Received models:', models);
-  return <ResultClient models={models} error={error} />;
+  return <ResultClient models={models} make={make} year={year} error={error} />;
 }
